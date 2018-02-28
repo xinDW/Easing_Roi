@@ -12,8 +12,6 @@ public class EasingROI implements PlugIn {
 	
 	private boolean isFollowing = true;
 	
-	private Roi masterRoi;
-	
 	@Override
 	public void run(String arg) {
 		// TODO Auto-generated method stub
