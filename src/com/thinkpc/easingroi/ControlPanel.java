@@ -27,6 +27,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 	private static JComboBox<String> cbMaster;
 	private static JComboBox<String> cbSlave;
 	private static JCheckBox ckbIsFollowing;
+	private static JCheckBox ckbScalable;
 	private static JButton btnRefreshList;
 	
 	private static int[] imageIdList;
@@ -48,7 +49,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
 		
-		c.insets = new Insets(15,15,15,15);
+		c.insets = new Insets(10,20,10,15);
 		
 		// JLabel
 		c.gridx = 0;
@@ -61,6 +62,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 		pane.add(new JLabel("Slave"), c);
 		
 		// ComboBox 1
+		c.insets = new Insets(10,10,10,15);
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 7;
@@ -73,14 +75,21 @@ public class ControlPanel extends JFrame implements ActionListener{
 		cbSlave = new JComboBox<String>();
 		pane.add(cbSlave, c);
 		
+		
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 1;
 		ckbIsFollowing = new JCheckBox("following", true);
 		pane.add(ckbIsFollowing, c);
 		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		ckbScalable = new JCheckBox("scalable", true);
+		pane.add(ckbScalable, c);
+		
 		c.gridx = 3;
-		c.gridy = 2;
+		c.gridy = 3;
 		btnRefreshList= new JButton("Refresh List");
 		pane.add(btnRefreshList, c);
 		
@@ -91,6 +100,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 		cbMaster.addActionListener(INSTANCE);
 		cbSlave.addActionListener(INSTANCE);
 		ckbIsFollowing.addActionListener(INSTANCE);
+		ckbScalable.addActionListener(INSTANCE);
 		btnRefreshList.addActionListener(INSTANCE);
 		
 		INSTANCE.addWindowListener(new WindowListener() {
@@ -108,7 +118,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				IJ.log("Closing");
+				//IJ.log("Closing");
 				notifyObserverFollowing(false);
 				ControlPanel.INSTANCE = null;
 			}
@@ -169,11 +179,15 @@ public class ControlPanel extends JFrame implements ActionListener{
 	public static void notifyObserverFollowing(boolean f) {
 		INSTANCE.observer.setFollowing(f);
 	}
-
+	public static void notifyObserverScalable(boolean s) {
+		INSTANCE.observer.setScalable(s);
+	}
+	
 	public static void notifyObserver() {
 		notifyObserverMaster();
 		notifyObserverSlave();
 		notifyObserverFollowing(ckbIsFollowing.isSelected());
+		notifyObserverScalable(ckbScalable.isSelected());
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -184,6 +198,8 @@ public class ControlPanel extends JFrame implements ActionListener{
 			notifyObserverSlave();
 		else if (o == ckbIsFollowing)
 			notifyObserverFollowing(ckbIsFollowing.isSelected());
+		else if (o == ckbScalable)
+			notifyObserverScalable(ckbScalable.isSelected());
 		else if (o == btnRefreshList) {
 			refreshList();
 		}
