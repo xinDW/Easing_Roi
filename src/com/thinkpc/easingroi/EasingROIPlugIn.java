@@ -6,7 +6,7 @@ import ij.WindowManager;
 import ij.gui.Roi;
 import ij.plugin.PlugIn;
 
-public class EasingROI implements PlugIn {
+public class EasingROIPlugIn implements PlugIn {
 	private ImagePlus master = null;
 	private ImagePlus slave = null;
 	
@@ -54,16 +54,16 @@ public class EasingROI implements PlugIn {
 			@Override
 			public void run() {
 				while (isFollowing) {
-					if (EasingROI.this.master != null && EasingROI.this.slave != null ) {
+					if (EasingROIPlugIn.this.master != null && EasingROIPlugIn.this.slave != null ) {
 						
 						//IJ.log("followROI in Thread " + Thread.currentThread().getId());
 						
-						Roi roi = EasingROI.this.master.getRoi();
+						Roi roi = EasingROIPlugIn.this.master.getRoi();
 						if (roi != null ) {
 							IJ.log("[master] " + roi.toString());
-							EasingROI.this.slave.setRoi(roi);
+							EasingROIPlugIn.this.slave.setRoi(roi);
 							slave.updateAndDraw();
-							IJ.log("[slave] " + EasingROI.this.slave.getRoi().toString());
+							IJ.log("[slave] " + EasingROIPlugIn.this.slave.getRoi().toString());
 						} else {
 							//IJ.log("roi null");
 						}						

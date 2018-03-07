@@ -22,7 +22,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private static ControlPanel INSTANCE;
-	private EasingROI observer;
+	private EasingROIPlugIn observer;
 	
 	private static JComboBox<String> cbMaster;
 	private static JComboBox<String> cbSlave;
@@ -110,6 +110,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 			public void windowClosing(WindowEvent arg0) {
 				IJ.log("Closing");
 				notifyObserverFollowing(false);
+				ControlPanel.INSTANCE = null;
 			}
 
 			@Override
@@ -153,7 +154,7 @@ public class ControlPanel extends JFrame implements ActionListener{
 		}
 	}
 	
-	public static void registerObserver(EasingROI e) {
+	public static void registerObserver(EasingROIPlugIn e) {
 		INSTANCE.observer = e;
 	}
 	public static void notifyObserverMaster() {
