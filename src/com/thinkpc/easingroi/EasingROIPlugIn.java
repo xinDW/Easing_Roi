@@ -18,7 +18,6 @@ public class EasingROIPlugIn implements PlugIn {
 	
 	@Override
 	public void run(String arg) {
-		// TODO Auto-generated method stub
 		ControlPanel.createAndShow();
 		ControlPanel.registerObserver(this);
 		ControlPanel.notifyObserver();
