@@ -1,7 +1,8 @@
-package com.thinkpc.easingroi;
+package com.thinkpc.easingroi.plugin;
 
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
+import ij.gui.Roi;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ImageProcessor;
 
@@ -22,7 +23,19 @@ public class SpecifyRoiSizePluginFilter implements PlugInFilter {
 	public void run(ImageProcessor ip) {
 		// TODO Auto-generated method stub
 		if (showDialog()) {
-			this.imp.setRoi(10, 10, (int)width, (int)height);
+			Roi roi = this.imp.getRoi();
+			int x = 10, y = 10;
+			if (roi != null) {
+				x = roi.getBounds().x;
+				y = roi.getBounds().y;
+			}
+			else {
+				if (this.width < this.imp.getWidth()) 
+					x = (int) ((this.imp.getWidth() - this.width) / 2);
+				if (this.height < this.imp.getHeight())
+					y = (int) ((this.imp.getHeight() - this.height) / 2);
+			}
+			this.imp.setRoi(x, y, (int)width, (int)height);
 			this.imp.updateAndDraw();
 		}
 	}
